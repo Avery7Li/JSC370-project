@@ -1,13 +1,13 @@
-name: "my jsc lab"
+name: "my jsc project"
 output_dir: "docs"
 navbar:
-  title: "JSC370 Lab12"
+  title: "JSC370 Final Project"
   left:
     - text: "Home"
       href: index.html
-    - text: "Second Page"
+    - text: "Lab12"
       href: page2.html
-    - text: "Index from lab12 repo"
+    - text: "Example Page"
       href: page3.html
   right:
     - icon: fa-github fa-lg

@@ -1,3 +1,3 @@
-My JSC370 Lab Website
+My JSC370 Final Project Website
 
-My website is published at https://avery7li.github.io/jsc370-lab12
+My website is published at https://avery7li.github.io/jsc370-final

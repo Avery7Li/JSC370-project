@@ -1,5 +1,5 @@
 ---
-title: "JSC370 Lab12"
+title: "JSC370 Final Project"
 ---
 
 # Hello World

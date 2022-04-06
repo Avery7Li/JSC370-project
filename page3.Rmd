@@ -1,5 +1,5 @@
 ---
-title: "JSC370 Final Project"
+title: "Example"
 output: 
     html_document:
         toc: TRUE
