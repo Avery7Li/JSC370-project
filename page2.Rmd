@@ -1,0 +1,77 @@
+---
+title: "Page 2"
+output: 
+  html_document:
+    toc:TRUE
+    toc_float:TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, message = FALSE)
+```
+
+# Raw Data
+
+```{r load library, include=FALSE}
+library(dplyr)
+library(data.table)
+library(tidyverse)
+library(plotly)
+library(knitr)
+library(widgetframe)
+```
+
+```{r load-data, echo=FALSE}
+
+fn <- "https://raw.githubusercontent.com/JSC370/jsc370-2022/main/labs/lab12/process_COVID_data.R"
+if (!file.exists("process_COVID_data.R"))
+  download.file(fn, destfile = "process_COVID_data.R")
+source("process_COVID_data.R")
+head(cv_states_today)
+```
+
+```{r, echo=FALSE}
+cv_states_mat <- cv_states %>%
+  select(state, date, new_cases) %>%
+  filter (date > "2021-07-01")
+
+cv_states_mat2 <- as.data.frame(pivot_wider(cv_states_mat, names_from=state, values_from=new_cases))
+cv_states_mat2 <- cv_states_mat2 %>% column_to_rownames("date") %>%
+  as.matrix() 
+
+p1<-plot_ly(x=colnames(cv_states_mat2), y=rownames(cv_states_mat2), z=~cv_states_mat2, type="heatmap")
+
+
+# Plot 2
+filter_dates <- seq(as.Date("2021-11-01"), as.Date("2022-03-22"), by="2 weeks")
+
+cv_states_mat3 <- cv_states %>% select(state, date, new_cases) %>% filter( date %in% filter_dates )
+cv_states_mat4 <- as.data.frame(pivot_wider(cv_states_mat3, names_from = state, values_from = new_cases))
+rownames(cv_states_mat4) <- cv_states_mat4$date
+cv_states_mat4$date <- NULL
+cv_states_mat4 <- as.matrix(cv_states_mat4)
+
+#create heatmap
+p2<-plot_ly(x=colnames(cv_states_mat4), y=rownames(cv_states_mat4), z=~cv_states_mat4, type="heatmap")
+```
+
+## Showcasing plots {.tabset}
+
+Create tabs to display each figure
+
+### Heatmap of daily cases
+
+```{r p1}
+p1
+```
+
+### Heatmap of biweekly cases
+
+```{r p2}
+p2
+```
+
+## {-}
+
+<br>
+

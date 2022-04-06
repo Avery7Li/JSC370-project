@@ -1,0 +1,21 @@
+name: "my jsc lab"
+output_dir: "docs"
+navbar:
+  title: "JSC370 Lab12"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Second Page"
+      href: page2.html
+    - text: "Index from lab12 repo"
+      href: page3.html
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/JSC370/jsc370-2022/
+    - text: "JSC370 Home"
+      href: https://jsc370.github.io/jsc370-2022/
+output:
+  html_document:
+    theme: cosmo
+    #include:
+    #  after_body: footer.html
