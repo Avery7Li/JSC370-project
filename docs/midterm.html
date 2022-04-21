@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>JSC370 Project - Volleyball as a Team Sport</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">JSC370 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/Avery7Li/jsc370-final">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://jsc370.github.io/jsc370-2022/">JSC370 Home</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">JSC370 Project - Volleyball as a Team Sport</h1>
+
+</div>
+
+
+<div id="introduction" class="section level2">
+<h2>1. Introduction</h2>
+<p>Volleyball is among the most popular team sports around the world. The players and audience enjoy it because of the strength, sportsmanship, and team collaboration demonstrated in the game. However, one may wonder that, to what extent is volleyball a team sport? In other words, which between a player’s capability and team cooperation contributes more to winning a game?</p>
+<p>This question further breaks down to the following subquestions to be discussed in this report:<br />
+1. How much does the score a player wins in a game depend on her personal capacity, such as physical traits and experience?<br />
+2. Is there a particular position or “ace” in the team critical for winning the game?<br />
+3. Is there an association between the scores two team members at specific positions get in a game?<br />
+</p>
+<p>In this project, I analyzed data from the 2019 FIVB Volleyball Women’s Nations League (VNL) to better understand the mechanisms of volleyball. Although the most recent VNL competition was held in 2021, available information on the players is not comprehensive. I then selected the second last competition, which was 2019 VNL as the game was cancelled in 2020. To learn the characteristics of as many teams as possible, I decided to focus on the preliminary round, where each of the 16 teams played against every other team once in the round-robin stage. The player roster dataset contains the basic information of the 400 players from the 16 teams, such as the age, height, and position they play in the team. The team rank dataset contains the rank of the teams in terms of how many matches they won. Lastly, the best player datasets contain the summary of the player’s spike, block, set, and dig skills, respectively.</p>
+<div id="terminology" class="section level3">
+<h3>Terminology</h3>
+<p>Before diving into the methods, some volleyball terms relevant to the analysis are listed as follows. [<a href="https://www.volleyball.com/volleyball-101/volleyball-terms/">Reference</a>]<br />
+- <strong>Match</strong>: Volleyball matches are a made up of sets. Match play on VNL consists of competing until one team wins 3 out of 5 sets.<br />
+- <strong>Set (game)</strong>: A volleyball set is played to 25 points. Sets must be won by at least 2 points.<br />
+- <strong>Dig</strong>: Passing a rapidly hit ball from the rally (potentially to the setter).<br />
+- <strong>Set</strong>: The tactical skill in which a ball is directed to a point where an attacker can spike it into the opponent’s court.<br />
+- <strong>Spike</strong>: The offensive action of hitting the ball. The attempt by one team to terminate the play by hitting the ball to the floor on the opponent’s side. Also “attack”.<br />
+<strong>Positions:</strong> - <strong>Middle Blocker</strong>: Middle blockes hit balls set at the net in the middle of the court. Middle blockers are commonly used as a decoy to freeze or confuse the opposing teams blockers.<br />
+- <strong>Outside Hitter</strong>: Outside hitters are usually the primary attackers on the team. These hitters attack balls that are set to the left side of the court.<br />
+- <strong>Setter</strong>: Setters have the 2nd of 3 contacts of the ball and “set” the ball with an “Overhand Pass” for a attacker to hit.<br />
+- <strong>Libero</strong>: liberos serves as defensive specialists on the team who usually “dig” with the 1st of 3 contacts of the ball.<br />
+- <strong>Opposite Spiker</strong>: Opposite hitters, also know as right-side hitters, are considered the most versatile because they can excel on offense and defense.</p>
+</div>
+</div>
+<div id="methods" class="section level2">
+<h2>2. Methods</h2>
+<div id="data-source" class="section level3">
+<h3>2.1 Data Source</h3>
+<p>The data was retrieved by web scraping at <a href="https://en.volleyballworld.com/en/vnl/2019/">the 2019 VNL website</a>. The Python library Beautiful Soup was used to pull the data from web pages. The Python script and generated datasets can be viewed on <a href="https://github.com/Avery7Li/JSC370-project/tree/master">this GitHub repository</a>.</p>
+</div>
+<div id="tools-for-exploration" class="section level3">
+<h3>2.2 Tools for Exploration</h3>
+<p>I read the datasets into data tables. Data cleaning and wrangling operations were completed using primarily data.table methods. Most figures preseted in this report were created using ggplot2. The GGally library was used to generate the pairwise correlation plots.</p>
+</div>
+<div id="data-cleaning" class="section level3">
+<h3>2.3 Data Cleaning</h3>
+<p>After the datasets are ready, I started exploratory data analysis. The team rank data table has 16 rows and 19 columns, which is expected as there were 16 teams in the tournament. The player bio data table contains 400 rows for 400 players and 13 columns, while the best scorer data table contains 245 rows. This is because many substitute players did not get a chance to play or score and were not included in the ranking.</p>
+<p>A further look into the variables revealed some issues with the original data table. For the bio data table, three outliers of <code>spike height</code> lower than 240cm were observed from the simple boxplot. It turned out two of them were from liberos with height 162, which is reasonable because libero is the position that has the least requirement on athlete height. However, the third outlier with a value of 130cm comes from a middle blocker of height 192cm, which is likely a mistake. Thus, I replaced the 130cm by 292cm, which is the block height from the same player. When I looked at the position variable from the bio data table, I saw that only one player had a position named “Universal” which is not among the positions introduced in the previous terminology. The player was from Team Dominican Republic and had a total score of 93. I then substituted her position by the mode position, outside hitter. In addition, the cases of player position names were not consistent. I standardized them to capital cases.</p>
+</div>
+<div id="data-wrangling" class="section level3">
+<h3>2.4 Data Wrangling</h3>
+<p>I noticed that some names on the bio data table had a letter “c” preceded by a newline at the end of the string. As I confirmed on the website, the “c” indicates that the player was the captain of the team. There were 16 such names as the competition had 16 team participants. I created a new indicator variable <code>is_captain</code> with value 0 and 1 before removing the suffix from the name string.</p>
+<p><code>age</code> was created as a new numerical variable. I extracted the year from the <code>birthdate</code> variable, converted it into an integer value, and subtracted it from year 2019 to calculate a player’s age at the time of the competition.</p>
+<p>Before merging the data tables together, I renamed the ambiguous columns with specific names. For example, variables called <code>total</code> were both present in the best scorer and bio datasets, but they represent total scorer and the number of times a player had been selected for competitions, respectively.</p>
+<p>Next, I took the variable <code>total score</code> from the best scorers dataset, <code>attack success rate</code> from the best spikers dataset, <code>digs per set</code> from the best diggers dataset, <code>sets per set</code> from the best setters dataset, and <code>attack success rate</code> from the best attackers dataset. I merged the bio and with those variables of interest using the player name. I then checked the combined data table still has 400 rows - Luckily, there were not two players with the same name.</p>
+<p>However, 112 rows have NA values in all columns <code>total score</code>, <code>digs per set</code>, <code>sets per set</code>, and <code>attack success rate</code>. Missing values were expected as previously we saw bio and best scorers have different row numbers. I first dropped the 112 rows and then imputed the remaining missing values with averages within the group <code>position</code> because players from the same position are more likely to have similar scores. The result player data table has 288 rows.</p>
+<p>Then, to prepare for the later investigation of the association between player performance and team result, I merged the newly generated player data table with the team rank data table. This time, no missing values were introduced to the combined table.</p>
+</div>
+</div>
+<div id="preliminary-results" class="section level2">
+<h2>3. Preliminary Results</h2>
+<div id="how-much-does-the-score-a-player-wins-in-a-game-depend-on-her-personal-capacity-such-as-physical-traits-and-experience" class="section level3">
+<h3>3.1 How much does the score a player wins in a game depend on her personal capacity, such as physical traits and experience?</h3>
+<p>Starting with the first question of interest, I focused on the variable <code>total score</code> as the measurement of performance, variables <code>height</code> and <code>spike height</code> for physical traits, and variables <code>age</code> and <code>total selection</code> (the number of times the player had been selected to compete in championships) as the measurement of experience. The total score is the sum of attack score, block score, and serve score. The correlation between spike height and block height is as large as 0.89. I also found that the spike height is no smaller than the block height for all players, so I picked <code>spike height</code> as an indicator for jump height.</p>
+<p>I created two sets of pairwise correlation plots of total score with physical measurements and experience measurements, respectively.</p>
+<p><img src="midterm_files/figure-html/individual%20correlation%20plot-1.png" width="672" /><img src="midterm_files/figure-html/individual%20correlation%20plot-2.png" width="672" /></p>
+<p>We can observe on the plot that there is a large correlation between spike height and height of value 0.735. The correlation between total score and spike height is significant as indicated by the three asterisks, and the correlation coefficient is 0.403. In terms of experience, the number of selections is significantly associated with age. The total score the player won during the competition is positively correlated with the number of selections. The correlation has a coefficient value of 0.171, which is relatively weak compared to that with spike height. However, the performance of a player is not associated with age as the correlation value 0.003 is very close to zero.</p>
+<p>Then, I fitted a linear model to total score and spike height. The estimated coefficient of spike height is 1.65, which represents that an increment of 1cm in spike height will result in an increase of 1.65 points in a player’s score. The p-value is <span class="math inline">\(1.10\times 10^{-12}\)</span>, smaller than the significance level <span class="math inline">\(\alpha=0.05\)</span>, so the estimate is statistically significant. The adjusted <span class="math inline">\(R^2\)</span> of the multiple linear regression model is 0.16, so about 16% of the variation in total score can be explained by the independent variables spike height.</p>
+<p>However, I identified some problems from the diagnostic plots. The line on the residual vs fitted graph is a little curved rather than horizontally straight. Some points on the tails from the Normal QQ plot fall off the line. Thus, the residuals are not normally distributed. The linear model might not be an ideal choice for <code>total score</code> and <code>spike height</code>.</p>
+<p>However, the score a player wins in a match depends on the nature of her position, and each position has different physical standard for the player. For example, opposite spikers and outside hitters are the primary attackers on the team and score most of the points. Those positions have high requirement on the player height as they need to hit the ball high to pass the block from the rally. On the other hand, liberos serve as defensive specialists and usually do not have an opportunity to score directly. They need to be agile to dig the ball before it hits the floor and thus have a lower weight among the players. Similarly, setters usually have the 2nd of three contacts with the ball and pass the ball to attackers on the team. It is unusual setters score directly on the court except serves.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Summary Statistics of 5 Volleyball Positions
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+position
+</th>
+<th style="text-align:right;">
+Average Score
+</th>
+<th style="text-align:right;">
+Average Height
+</th>
+<th style="text-align:right;">
+Average Weight
+</th>
+<th style="text-align:right;">
+Number
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+101
+</td>
+<td style="text-align:right;">
+189
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+92
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+189
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+74
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Libero
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+170
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Setter
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+48
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="midterm_files/figure-html/score%20position%20plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The boxplot shows that there is a large variation in opposite spikers’ scores. The attackers in general score much more points directly than setters and liberos on the team. Then, I visualized the total scores versus spike height by five volleyball positions as follows. It is noticeable that the regression lines are the steepest among opposite spikers and outside hitters. The higher a spiker can jump, the more likely she can bypass the block from opponents and score.</p>
+<p><img src="midterm_files/figure-html/individual%20plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Therefore, There is a moderate association between the points a player wins on a competition and her physical traits, especially with the jump height. Attackers on the team are likely to score points on a match. The association is stronger among some volleyball positions and weaker among others. However, a player’s performance is not necessarily related to her experience. Young players who have not participated in a lot of world championships can gain as many points as experienced players.</p>
+</div>
+<div id="is-there-a-particular-position-or-ace-in-the-team-critical-for-winning-the-game" class="section level3">
+<h3>3.2 Is there a particular position or “ace” in the team critical for winning the game?</h3>
+<p>To answer this question, I studied the association between the teams’ results and players’ performance. The team result was evaluated using the metric <code>match points</code> and <code>set ratio</code>. Match points were calculated by adding up points gained from each match according the following criteria.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Points Earned Per Match
+</caption>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Match won 3-0; 3-1
+</td>
+<td style="text-align:left;">
+3 points
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Match won 3-2
+</td>
+<td style="text-align:left;">
+2 points
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Match lost 2-3
+</td>
+<td style="text-align:left;">
+1 points
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Match lost 0-3; 1-3
+</td>
+<td style="text-align:left;">
+0 points
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Match forfeited
+</td>
+<td style="text-align:left;">
+0 points
+</td>
+</tr>
+</tbody>
+</table>
+<p>The philosophy behind is that teams aim to finish a match by winning three out of five sets as soon as possible ideally without losing a set. If two or more teams are tied on the number of points gained, they will be ranked by <code>set ratio</code> resulting from the division of the number of all set won by the number of all sets lost. Players’ performance was measured based on their total score, success rate of attacks, the number of digs per set, and the number of sets per set. Actions of digs and sets are usually the first two contacts with the ball and do not count towards scores, but they also reflect player skills, especially for liberos and setters.</p>
+<div id="team-summary-statistics" class="section level4">
+<h4>3.2.1 Team Summary Statistics</h4>
+<p>First, I took a closer look at each of the 16 teams. Summary statistics of match results, player performance, and play bio are displayed in the table below. Maximum and average total scores of players are calculated for each team together with the standard deviation. For digs and sets, because one of the 6 players on the court in a game will be a setter and at most one of them will be a libero, I only took maximum values on the number of digs and sets per set for each team.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; ">
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Summary Statistics of 16 Teams
+</caption>
+<thead>
+<tr>
+<th style="empty-cells: hide;border-bottom:hidden;position: sticky; top:0; background-color: #FFFFFF;" colspan="2">
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="3">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Match Result
+</div>
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="5">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Player Performance
+</div>
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="3">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Player Bio
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Rank
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Match Win
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Match Points
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Set Ratio
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Max Score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Average Score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+STD Score
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Max Digs
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Max Sets
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Average Age
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Average Selections
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Average Height
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+China
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+3.083
+</td>
+<td style="text-align:right;">
+157
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 166, 133, 0.8) !important;">
+54
+</td>
+<td style="text-align:right;">
+44.39
+</td>
+<td style="text-align:right;">
+1.68
+</td>
+<td style="text-align:right;">
+2.20
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+187
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+2.294
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(35, 137, 142, 0.8) !important;">
+66
+</td>
+<td style="text-align:right;">
+57.15
+</td>
+<td style="text-align:right;">
+2.05
+</td>
+<td style="text-align:right;">
+2.67
+</td>
+<td style="text-align:right;">
+25
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+188
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:right;">
+2.500
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(58, 84, 140, 0.8) !important;">
+72
+</td>
+<td style="text-align:right;">
+78.86
+</td>
+<td style="text-align:right;">
+2.60
+</td>
+<td style="text-align:right;">
+4.90
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+183
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+1.857
+</td>
+<td style="text-align:right;">
+223
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(46, 109, 142, 0.8) !important;">
+73
+</td>
+<td style="text-align:right;">
+69.14
+</td>
+<td style="text-align:right;">
+2.46
+</td>
+<td style="text-align:right;">
+4.22
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+121
+</td>
+<td style="text-align:right;">
+184
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Turkey
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+2.000
+</td>
+<td style="text-align:right;">
+291
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(57, 85, 140, 0.8) !important;">
+79
+</td>
+<td style="text-align:right;">
+78.44
+</td>
+<td style="text-align:right;">
+2.47
+</td>
+<td style="text-align:right;">
+5.16
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+186
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Poland
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+1.137
+</td>
+<td style="text-align:right;">
+421
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 0.8) !important;">
+73
+</td>
+<td style="text-align:right;">
+105.42
+</td>
+<td style="text-align:right;">
+2.07
+</td>
+<td style="text-align:right;">
+2.07
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+184
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Belgium
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.965
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(51, 98, 141, 0.8) !important;">
+60
+</td>
+<td style="text-align:right;">
+73.61
+</td>
+<td style="text-align:right;">
+2.68
+</td>
+<td style="text-align:right;">
+5.04
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+183
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+Dominican Republic
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+0.939
+</td>
+<td style="text-align:right;">
+258
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(59, 82, 139, 0.8) !important;">
+86
+</td>
+<td style="text-align:right;">
+79.69
+</td>
+<td style="text-align:right;">
+2.72
+</td>
+<td style="text-align:right;">
+4.72
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+95
+</td>
+<td style="text-align:right;">
+187
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+<td style="text-align:right;">
+193
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(31, 154, 138, 0.8) !important;">
+55
+</td>
+<td style="text-align:right;">
+49.86
+</td>
+<td style="text-align:right;">
+3.20
+</td>
+<td style="text-align:right;">
+5.83
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+99
+</td>
+<td style="text-align:right;">
+176
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+0.827
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(35, 137, 142, 0.8) !important;">
+52
+</td>
+<td style="text-align:right;">
+57.19
+</td>
+<td style="text-align:right;">
+3.51
+</td>
+<td style="text-align:right;">
+3.62
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+52
+</td>
+<td style="text-align:right;">
+183
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+Netherlands
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+0.900
+</td>
+<td style="text-align:right;">
+125
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 0.8) !important;">
+44
+</td>
+<td style="text-align:right;">
+33.41
+</td>
+<td style="text-align:right;">
+1.63
+</td>
+<td style="text-align:right;">
+4.47
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:right;">
+187
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+Thailand
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.515
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(31, 150, 139, 0.8) !important;">
+49
+</td>
+<td style="text-align:right;">
+51.60
+</td>
+<td style="text-align:right;">
+2.50
+</td>
+<td style="text-align:right;">
+6.68
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+175
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+Serbia
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.606
+</td>
+<td style="text-align:right;">
+146
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(40, 174, 129, 0.8) !important;">
+41
+</td>
+<td style="text-align:right;">
+41.06
+</td>
+<td style="text-align:right;">
+1.98
+</td>
+<td style="text-align:right;">
+2.17
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+184
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+Russia
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.421
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(30, 157, 137, 0.8) !important;">
+43
+</td>
+<td style="text-align:right;">
+48.25
+</td>
+<td style="text-align:right;">
+1.98
+</td>
+<td style="text-align:right;">
+4.04
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+186
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+Korea
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.432
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(36, 135, 142, 0.8) !important;">
+54
+</td>
+<td style="text-align:right;">
+57.73
+</td>
+<td style="text-align:right;">
+2.23
+</td>
+<td style="text-align:right;">
+4.34
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+86
+</td>
+<td style="text-align:right;">
+181
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+Bulgaria
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.317
+</td>
+<td style="text-align:right;">
+197
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(44, 115, 142, 0.8) !important;">
+63
+</td>
+<td style="text-align:right;">
+66.03
+</td>
+<td style="text-align:right;">
+3.48
+</td>
+<td style="text-align:right;">
+3.89
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+184
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In terms of player profile, Team Belgium was the youngest team with an average age of 22 while the largest average age was 29 from Team Thailand. At the same time, Thailand players were the shortest with an average height of 175cm. The largest average height of 188cm came from Team USA. While Team China and Team USA both won 12 matches, the former had a larger set ratio, which means Team China had lost fewer sets during the matches. However, neither Team China nor USA had a particularly large max or average player score. Team China’s max player score was among the last five teams and they had the third smallest standard deviation of player scores. On the other hand, the best scorer of the season, Malwina Smarzek, won 421 points on her own for Team Poland, but the team ranked in 6th place, which was not as good as one may expect Therefore, the score an ace wins for the team is not deterministic.</p>
+<p>The spread of players’ scores for each team is shown in the following boxplots. Starting from the top left subplot, the teams are ordered according to the round robin rank from left to right.</p>
+<p><img src="midterm_files/figure-html/team%20plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>We can observe that many teams have one or two players who are the primary scorer on the team. However, Having players at similar levels does not necessarily put a team at a disadvantage. Though it is certainly better for the players to be similarly strong rather than similarly weak.</p>
+</div>
+<div id="linear-regression-on-match-points" class="section level4">
+<h4>3.2.2 Linear Regression on Match Points</h4>
+<p>Next, I tried to fit linear models to match points the 16 teams won based on different combinations of explanatory variables of average player score, maximum number of digs per set, and maximum number of sets per set. The resulted coefficients of determination (adjusted), residual variance, model p-values, and AICc are shown in the following table.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Linear Models on Teams’ Match Points
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Explanatory Variables
+</th>
+<th style="text-align:right;">
+Coefficient of Determination
+</th>
+<th style="text-align:right;">
+Residual Variance
+</th>
+<th style="text-align:right;">
+Model p-value
+</th>
+<th style="text-align:right;">
+AICc
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Average Score + Max Digs + Max Sets
+</td>
+<td style="text-align:right;">
+0.239
+</td>
+<td style="text-align:right;">
+70.637
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+119.9956
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Average Score + Max Sets
+</td>
+<td style="text-align:right;">
+0.195
+</td>
+<td style="text-align:right;">
+74.667
+</td>
+<td style="text-align:right;">
+0.041
+</td>
+<td style="text-align:right;">
+120.6783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Average Score + Max Digs
+</td>
+<td style="text-align:right;">
+0.292
+</td>
+<td style="text-align:right;">
+65.686
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+121.8639
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Average Score
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:right;">
+73.360
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:right;">
+122.7287
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Max Score
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+82.446
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+124.9240
+</td>
+</tr>
+</tbody>
+</table>
+<p>We can notice that the linear model using average score and max digs has the largest adjusted <span class="math inline">\(R^2\)</span>, which indicates that around 29% of the variation in the match points can be explained by the average score and maximum number of digs per set. That model also has the smallest residual variance among the four and a p-value smaller than the 0.05 significance level. However, the model fitted with all three independence variables is favoured by the AICc model selection. The linear model with the maximum player score is the weakest. The team’s performance does not largely depend on the best player on the team.</p>
+<p>The graph below shows the visualization of the linear regression of match points with the average player score. The plot hints that the linear model may not be a good fit for the data, as many points fall outside the shaded 95% interval. The model could not predict games with the particularly high or low points well.</p>
+<p><img src="midterm_files/figure-html/team%20regression%20plot-1.png" width="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="teams-composition-of-top-ranked-players" class="section level4">
+<h4>3.2.3 Team’s Composition of Top Ranked Players</h4>
+<p>Then, I explored how many best players each team had, according to the spike, block, set, and dig rankings. while the spiker ranking was determined by a player’s attack success rate, the rankings for block, set, and dig were evaluated based on the average number of tactical skills successfully performed by a player in a set. The scatterplot below decomposes the top 10 rankings for the 4 skills by the team and player position. The x-axis corresponds to the rank from 1 to 10, so each vertical line would have four pins for the four skills. The teams on the y-axis are ordered by the preliminary round team rank from top to bottom.</p>
+<p><img src="midterm_files/figure-html/skill%20plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><img src="midterm_files/figure-html/skill%20plot%20bar-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>There is no surprise that the top 10 players who excel at setting were setters, and opposite spikers and outside hitters were the best at attacks. It is interesting to note that the 10 best diggers could be liberos, outside hitters, and even setters. A potential explanation is that a libero is not always on the court during a match. Although players need to actively attack to score, preventing the ball from hitting the floor at the first place is equally important. Thus, it never hurts to have more people good at digging on the team.</p>
+<p>If we ignore the skill category, dividing the 40 top players by 16 teams gives us an average of 2.5 top players scattered in each team, as indicated by the horizontal dashed line on the barchart. To my surprise, both Team China and Team USA only had one top 10 attacker on the team, who ranked in the 8th and the 1st, respectively. The other three top-5 teams have players who excel at each of the four tactical skills. Thus, it is difficult to conclude if it’s more advantageous for a team to be well-rounded and have good players with all tactical skills, or having an ace player excellent at a particular skill is good enough. However, it is noticeable that while good setters, diggers, and blockers almost evenly scattered across all teams, the first half of teams had most of the good attackers. Team Turkey even had two good attackers who ranked in the 3rd and 7th in addition to a third best setter. Therefore, a team at least needs an attacker to actively spike and score.</p>
+<p>I then look into details about the top 1 players for the four skills. Team USA had the best attacker Andrea Drews with an attack success rate of 48.1%. Drews’ height and spike height surpassed 85% other attackers on the competition. In the final game after the preliminary round, Team USA won the gold medal and Drews was selected the MVP. Drews later became a gold medalist at the 2021 Tokyo Olympic Games. The previously mentioned best scorer Malwina Smarzek only ranked as the 6th best spiker with a slightly lower success rate of 43.6%. Although Smarzek scored more by spikes for Team Poland, she made 863 attempts, which was more than twice as Drews.</p>
+<p>The top player for other three skills all came from teams in the second half. The best blocker Maja Aleksic was from Team Serbia but she was the only top 10 player on the team for all skills, and that was not enough to lead the team to victory. It is worth mentioning that the best setter, Nootsara Tomkom from Team Thailand, was also ranked at the 8th place for her digging skill with 6.7 digs per set. The libero on the team was only ranked at the 35th place with 1.7 digs per set. We know that the dig and set are usually the first and second of three contacts with the ball. One can imagine that the setter will not be able to set the ball for attackers to hit if she digs the ball first because a player is not allowed to touch the ball for two consecutive times. This might be a critical issue for Team Thailand. Without a reliable libero to pick up the ball at the first place, a team may not benefit from the setter’s excellent setting skill.</p>
+</div>
+<div id="team-captains" class="section level4">
+<h4>3.2.4 Team Captains</h4>
+<p>I analyzed the characteristics of the 16 captains from different teams to see how they decide this important role of leading the team to victory. The position of captain is given to athletes whom the rest of the team respect and trust. A captain is often one of the older or more experienced players and have good leadership qualities. But sometimes, the player best with some tactical skills is selected as the captain.</p>
+<p>On 2019 VNL, the average age among the captains was 29, which was 5 years older than the overall mean age of 24. In addition, they had been selected to participate in competitions for an average of 148 times before 2019 VNL, which was almost three times the mean value for all players. This verifies the above statement that captains are usually experienced players.</p>
+<p>Next, I considered the positions of the captains. The pie chart below shows that almost half of the captains were outside hitters. Together with middle blockers and opposite spikers, attackers amounted to 75% of the captains. However, this figure is similar to the proportion of attackers among all players, which is 69%. No captain served as a libero on the team, while a quarter of the captains were setters on their teams. This proportion is a half larger than the percentage of setters among all players. A possible reason is that at the position receiving the second touch of the ball, setters interact largely with both defensive and offensive roles. Setter is often so-called brain of the team, who directs the team’s offense. Thus, it can be nature for the setter to take the role of team captain.</p>
+<p><img src="midterm_files/figure-html/captain%20plot-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>From the histogram of captains’ scores, most of the captains contribute 50 to 100 points to the team through the preliminary round. The table below compares the primary scorer with the captain of each team. Since all primary scorers are spikers, I included their attack success rate and attacker ranks. For each captain, I found the skills they are relatively the best at and included their rankings for that skill.</p>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; ">
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Team Captain vs Primary Scorer
+</caption>
+<thead>
+<tr>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="5">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Primary Scorer
+</div>
+</th>
+<th style="empty-cells: hide;border-bottom:hidden;position: sticky; top:0; background-color: #FFFFFF;" colspan="1">
+</th>
+<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; position: sticky; top:0; background-color: #FFFFFF;" colspan="5">
+<div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">
+Captain
+</div>
+</th>
+</tr>
+<tr>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Attacker Rank
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Attack Success Rate
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Position
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Total Score
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Name
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Team
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Name
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Total Score
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Position
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+Best Skill
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+Skill Rank
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(53, 183, 121, 0.8) !important;">
+8
+</td>
+<td style="text-align:left;">
+43.24
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+157
+</td>
+<td style="text-align:left;">
+Xiangyu Gong
+</td>
+<td style="text-align:left;">
+China
+</td>
+<td style="text-align:left;">
+Xiaotong Liu
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Attack
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(69, 55, 129, 0.8) !important;">
+77
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 0.8) !important;">
+1
+</td>
+<td style="text-align:left;">
+48.12
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+235
+</td>
+<td style="text-align:left;">
+Andrea Drews
+</td>
+<td style="text-align:left;">
+USA
+</td>
+<td style="text-align:left;">
+Jordan Larson
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Dig
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 0.8) !important;">
+99
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(59, 187, 117, 0.8) !important;">
+5
+</td>
+<td style="text-align:left;">
+43.9
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+278
+</td>
+<td style="text-align:left;">
+Gabriela Braga Guimaraes
+</td>
+<td style="text-align:left;">
+Brazil
+</td>
+<td style="text-align:left;">
+Natalia Pereira
+</td>
+<td style="text-align:right;">
+103
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Attack
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(49, 104, 142, 0.8) !important;">
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(61, 188, 116, 0.8) !important;">
+4
+</td>
+<td style="text-align:left;">
+45.75
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+223
+</td>
+<td style="text-align:left;">
+Elena Pietrini
+</td>
+<td style="text-align:left;">
+Italy
+</td>
+<td style="text-align:left;">
+Cristina Chirichella
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 144, 141, 0.8) !important;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(63, 188, 115, 0.8) !important;">
+3
+</td>
+<td style="text-align:left;">
+45.91
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+291
+</td>
+<td style="text-align:left;">
+Ebrar Karakurt
+</td>
+<td style="text-align:left;">
+Turkey
+</td>
+<td style="text-align:left;">
+Meryem Boz
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(70, 11, 94, 0.8) !important;">
+95
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(56, 185, 119, 0.8) !important;">
+6
+</td>
+<td style="text-align:left;">
+43.57
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+421
+</td>
+<td style="text-align:left;">
+Malwina Smarzek
+</td>
+<td style="text-align:left;">
+Poland
+</td>
+<td style="text-align:left;">
+Agnieszka Kakolewska
+</td>
+<td style="text-align:right;">
+131
+</td>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(61, 188, 116, 0.8) !important;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(45, 178, 125, 0.8) !important;">
+13
+</td>
+<td style="text-align:left;">
+40.67
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:left;">
+Britt Herbots
+</td>
+<td style="text-align:left;">
+Belgium
+</td>
+<td style="text-align:left;">
+Ilka Van De Vyver
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:left;">
+Setter
+</td>
+<td style="text-align:left;">
+Set
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(58, 186, 118, 0.8) !important;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(64, 189, 114, 0.8) !important;">
+2
+</td>
+<td style="text-align:left;">
+47.57
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+258
+</td>
+<td style="text-align:left;">
+Brayelin Elizabeth Martinez
+</td>
+<td style="text-align:left;">
+Dominican Republic
+</td>
+<td style="text-align:left;">
+Prisilla Rivera Brens
+</td>
+<td style="text-align:right;">
+89
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(56, 88, 140, 0.8) !important;">
+61
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(32, 163, 134, 0.8) !important;">
+26
+</td>
+<td style="text-align:left;">
+34.04
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+193
+</td>
+<td style="text-align:left;">
+Yuki Ishii
+</td>
+<td style="text-align:left;">
+Japan
+</td>
+<td style="text-align:left;">
+Nana Iwasaka
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(51, 99, 141, 0.8) !important;">
+55
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(46, 179, 124, 0.8) !important;">
+12
+</td>
+<td style="text-align:left;">
+41.33
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+231
+</td>
+<td style="text-align:left;">
+Louisa Lippmann
+</td>
+<td style="text-align:left;">
+Germany
+</td>
+<td style="text-align:left;">
+Denise Hanke
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:left;">
+Setter
+</td>
+<td style="text-align:left;">
+Set
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(38, 173, 129, 0.8) !important;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(68, 1, 84, 0.8) !important;">
+145
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:right;">
+125
+</td>
+<td style="text-align:left;">
+Juliet Lohuis
+</td>
+<td style="text-align:left;">
+Netherlands
+</td>
+<td style="text-align:left;">
+Maret Grothues
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Dig
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(71, 14, 97, 0.8) !important;">
+94
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(31, 161, 135, 0.8) !important;">
+27
+</td>
+<td style="text-align:left;">
+33.7
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+143
+</td>
+<td style="text-align:left;">
+Ajcharaporn Kongyot
+</td>
+<td style="text-align:left;">
+Thailand
+</td>
+<td style="text-align:left;">
+Nootsara Tomkom
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+Setter
+</td>
+<td style="text-align:left;">
+Set
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 0.8) !important;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(34, 168, 132, 0.8) !important;">
+22
+</td>
+<td style="text-align:left;">
+36.58
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+146
+</td>
+<td style="text-align:left;">
+Katarina Lazovic
+</td>
+<td style="text-align:left;">
+Serbia
+</td>
+<td style="text-align:left;">
+Maja Aleksic
+</td>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:left;">
+Middle Blocker
+</td>
+<td style="text-align:left;">
+Block
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(67, 191, 113, 0.8) !important;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 166, 133, 0.8) !important;">
+23
+</td>
+<td style="text-align:left;">
+36.39
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+155
+</td>
+<td style="text-align:left;">
+Tatiana Ezhak
+</td>
+<td style="text-align:left;">
+Russia
+</td>
+<td style="text-align:left;">
+Evgeniya Startseva
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Setter
+</td>
+<td style="text-align:left;">
+Set
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(69, 6, 90, 0.8) !important;">
+97
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(30, 155, 138, 0.8) !important;">
+33
+</td>
+<td style="text-align:left;">
+32.07
+</td>
+<td style="text-align:left;">
+Opposite Spiker
+</td>
+<td style="text-align:right;">
+185
+</td>
+<td style="text-align:left;">
+Heejin Kim
+</td>
+<td style="text-align:left;">
+Korea
+</td>
+<td style="text-align:left;">
+Yeon Koung Kim
+</td>
+<td style="text-align:right;">
+144
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Attack
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(45, 178, 125, 0.8) !important;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;color: white !important;background-color: rgba(31, 159, 136, 0.8) !important;">
+30
+</td>
+<td style="text-align:left;">
+32.83
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:right;">
+197
+</td>
+<td style="text-align:left;">
+Gergana Dimitrova
+</td>
+<td style="text-align:left;">
+Bulgaria
+</td>
+<td style="text-align:left;">
+Gergana Dimitrova
+</td>
+<td style="text-align:right;">
+197
+</td>
+<td style="text-align:left;">
+Outside Hitter
+</td>
+<td style="text-align:left;">
+Dig
+</td>
+<td style="text-align:right;color: white !important;background-color: rgba(33, 166, 133, 0.8) !important;">
+16
+</td>
+</tr>
+</tbody>
+</table>
+</div></li>
+</ul>
+<p>We can observe that the captains were not the primary scorers on the team no matter what position they played, except from Team Bulgaria which ranked the last place in the preliminary round. Only the 9th best attacker, Yeon Koung Kim was Team Korea’s captain. The rest of top-10 attackers do not serve as the team captain. On the contrary, most captains were most skilled in blocking, setting, and digging. Some of them are among the best setters and blockers. Team Thailand’s captain Tomkom was the best setter (also recall that she’s the 8th best digger), while the best blocker Aleksic served as the captain of Team Serbia. Aleksic was only 22 years old in 2019, which would definitely considered young as a captain. This can be an example demonstrating that captains do not necessarily need to be old if they are skilled enough to earn trust from other teammates.</p>
+</div>
+</div>
+<div id="is-there-an-association-between-the-scores-two-team-members-at-specific-positions-get-in-a-game" class="section level3">
+<h3>3.3 Is there an association between the scores two team members at specific positions get in a game?</h3>
+<p>A basic rule of volleyball is that each team is allowed a maximum of three successive contacts of the ball in order to return it to the opponent’s area. A typical routine is (1) the libero receives the ball and passes it to the setter; (2) the setter sets the ball for one spiker on the team; (3) the spiker hits the ball to the rally’s area. For this last question, I wanted to explore the interactions between (1) and (2), and between (2) and (3).</p>
+<p>I focused on the primary setter, digger, and spiker on each team and extracted the data for players with best records within the team. I attempted to fit a simple linear model to the average number of sets the primary setter performed with the number of digs the primary digger completed during a game. Another linear model was created for the number of spikes from the primary attacker and the number of sets from the primary setter. The adjust <span class="math inline">\(R^2\)</span> and p-values are summarized in the table below, and I visualized the linear regression in a scatterplot.</p>
+<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Linear Models for Position Interaction
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Interaction
+</th>
+<th style="text-align:right;">
+Coefficient of Determination
+</th>
+<th style="text-align:right;">
+P-value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sets ~ Digs
+</td>
+<td style="text-align:right;">
+0.1009875
+</td>
+<td style="text-align:right;">
+0.1235692
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Spikes ~ Sets
+</td>
+<td style="text-align:right;">
+-0.0371429
+</td>
+<td style="text-align:right;">
+0.5074090
+</td>
+</tr>
+</tbody>
+</table>
+<p><img src="midterm_files/figure-html/interaction%20plot-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>We can see that neither of the two models is statistically significant as the p-values are greater than 0.05. Also, many points on the scatterplot fall outside of the shaded confidence interval. This poor result is largely due to the limitation of my approach - I only used the summary statistics of the 16 teams as those were relatively easy to scrape from the webpages. The sample size was too small to give reliable results. In addition, more sophisticated model should be introduced if there are more available data. A potential next step is to scrape the set details of the 120 matches from the 2019 VNL website or introduce other competition data. Therefore, no reliable conclusion could be made for the third question at this point of time.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h2>4. Conclusion</h2>
+<p>In this analysis, I did a preliminary exploration on the three formulated questions. The score a player can win for her team largely depends on the nature of the position she plays. Spikers are the primary scorers on a team and spike heights affect spikers’ potential of winning points the most among all positions. Age and experience, on the other hand, are not critical factors for player scores.</p>
+<p>In terms of team performance, the score the ace wins for the team is not deterministic. Not having an absolute primary scorer does not always put a team at a disadvantage. Instead, the match points are more associated with average player score and the team’s defense ability. There is no such thing as too many good receivers on the team. A team also does not need to be all-rounded with excellent blocker, setter, and digger at the same time. However, a reliable spiker is a must-have for a team to actively attack and score. Captain is potentially the most important role on the team but is often not the player who directly contributes most scores. They are usually experienced or skilled such that other teammates trust them in terms of leading the team to victory. In some teams, setters who serve like a bridge between players fit naturally to the role of captain.</p>
+<p>The biggest limitation of my analysis comes from the lack of per-set data. The results from fitted models are not reliable due to the small sample size. A future improvement is to scrape the more detailed data from the website and build models in a more sophisticated way. Currently, no concrete conclusion could be made for Question 3 but insights from previous sections provided some hints that there must be some association between player performances at different positions.</p>
+<p>Although it is undeniable players’ individual capability is important for the game, team collaboration is the essence of volleyball. Depending on player skills and characteristics, different teams can arrange different strategies focusing on offense or defense. All players at all positions contribute to the game together and none of the positions is absolutely superior to another.</p>
+</div>
+
+<p>Copyright &copy; 2022, Zhengdan Li.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

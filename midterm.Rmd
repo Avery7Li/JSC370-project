@@ -1,0 +1,843 @@
+---
+title: "JSC370 Project - Volleyball as a Team Sport"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+library(dplyr)
+library(leaflet)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(gtable)
+library(mgcv)
+library(kableExtra)
+library("GGally")
+library(AICcmodavg)
+library(plotly)
+library(widgetframe)
+library(knitr)
+library(stringr)
+library(tidyverse)
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = FALSE,
+  cache=FALSE,
+  include=TRUE)
+```
+
+## 1. Introduction
+
+```{r load-data, include=FALSE}
+library(data.table)
+library(dplyr)
+library(leaflet)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(gtable)
+library(mgcv)
+library(kableExtra)
+library("GGally")
+library(AICcmodavg)
+
+# Helper functions
+# Slice from end of the string
+slice_back <- function(s, n) {
+  sub = substr(s, nchar(s)-n+1, nchar(s))
+  return(sub)
+}
+# Mode
+fmode <- function(x) unique(x)[which.max(table(x))]
+
+# Position order constant
+position_levels <- c("Opposite Spiker", "Outside Hitter", "Middle Blocker",
+       "Setter", "Libero")
+
+# Read in the player and team data
+scorers <- data.table::fread("data/best-scorers.csv")
+spikers <- data.table::fread("data/best-spikers.csv")
+diggers <- data.table::fread("data/best-diggers.csv")
+setters <- data.table::fread("data/best-setters.csv")
+receivers <- data.table::fread("data/best-receivers.csv")
+
+blockers <- data.table::fread("data/best-blockers.csv")
+
+bio <- data.table::fread("data/player_bio.csv")
+team_rank <- data.table::fread("data/team_rank.csv")
+round_robin <- data.table::fread("data/round_robin.csv")
+
+# Check data type and dimension 
+str(scorers)
+str(bio)
+str(team_rank)
+str(round_robin)
+summary(scorers)
+summary(bio)
+summary(team_rank)
+summary(round_robin)
+```
+
+Volleyball is among the most popular team sports around the world. The players and audience enjoy it because of the strength, sportsmanship, and team collaboration demonstrated in the game. However, one may wonder that, to what extent is volleyball a team sport? In other words, which between a player's capability and team cooperation contributes more to winning a game?
+
+This question further breaks down to the following subquestions to be discussed in this report:\
+1. How much does the score a player wins in a game depend on her personal capacity, such as physical traits and experience?\
+2. Is there a particular position or "ace" in the team critical for winning the game?\
+3. Is there an association between the scores two team members at specific positions get in a game?\
+
+In this project, I analyzed data from the 2019 FIVB Volleyball Women's Nations League (VNL) to better understand the mechanisms of volleyball. Although the most recent VNL competition was held in 2021, available information on the players is not comprehensive. I then selected the second last competition, which was 2019 VNL as the game was cancelled in 2020. To learn the characteristics of as many teams as possible, I decided to focus on the preliminary round, where each of the 16 teams played against every other team once in the round-robin stage. The player roster dataset contains the basic information of the 400 players from the 16 teams, such as the age, height, and position they play in the team. The team rank dataset contains the rank of the teams in terms of how many matches they won. Lastly, the best player datasets contain the summary of the player's spike, block, set, and dig skills, respectively. 
+
+### Terminology
+
+Before diving into the methods, some volleyball terms relevant to the analysis are listed as follows. [[Reference](https://www.volleyball.com/volleyball-101/volleyball-terms/)]\
+- **Match**: Volleyball matches are a made up of sets. Match play on VNL consists of competing until one team wins 3 out of 5 sets.\
+- **Set (game)**: A volleyball set is played to 25 points. Sets must be won by at least 2 points.\
+- **Dig**: Passing a rapidly hit ball from the rally (potentially to the setter).\
+- **Set**: The tactical skill in which a ball is directed to a point where an attacker can spike it into the opponent's court.\
+- **Spike**: The offensive action of hitting the ball. The attempt by one team to terminate the play by hitting the ball to the floor on the opponent's side. Also "attack".\
+  **Positions:**
+- **Middle Blocker**: Middle blockes hit balls set at the net in the middle of the court. Middle blockers are commonly used as a decoy to freeze or confuse the opposing teams blockers.\
+- **Outside Hitter**: Outside hitters are usually the primary attackers on the team. These hitters attack balls that are set to the left side of the court.\
+- **Setter**: Setters have the 2nd of 3 contacts of the ball and “set” the ball with an “Overhand Pass” for a attacker to hit.\
+- **Libero**: liberos serves as defensive specialists on the team who usually "dig" with the 1st of 3 contacts of the ball. \
+- **Opposite Spiker**: Opposite hitters, also know as right-side hitters, are considered the most versatile because they can excel on offense and defense.
+
+## 2. Methods
+
+### 2.1 Data Source
+The data was retrieved by web scraping at [the 2019 VNL website](https://en.volleyballworld.com/en/vnl/2019/). The Python library Beautiful Soup was used to pull the data from web pages. The Python script and generated datasets can be viewed on [this GitHub repository](https://github.com/Avery7Li/JSC370-project/tree/master).
+
+### 2.2 Tools for Exploration
+I read the datasets into data tables. Data cleaning and wrangling operations were completed using primarily data.table methods. Most figures preseted in this report were created using ggplot2. The GGally library was used to generate the pairwise correlation plots.
+
+### 2.3 Data Cleaning
+After the datasets are ready, I started exploratory data analysis. The team rank data table has 16 rows and 19 columns, which is expected as there were 16 teams in the tournament. The player bio data table contains 400 rows for 400 players and 13 columns, while the best scorer data table contains 245 rows. This is because many substitute players did not get a chance to play or score and were not included in the ranking. 
+
+A further look into the variables revealed some issues with the original data table. For the bio data table, three outliers of `spike height` lower than 240cm were observed from the simple boxplot. It turned out two of them were from liberos with height 162, which is reasonable because libero is the position that has the least requirement on athlete height. However, the third outlier with a value of 130cm comes from a middle blocker of height 192cm, which is likely a mistake. Thus, I replaced the 130cm by 292cm, which is the block height from the same player. When I looked at the position variable from the bio data table, I saw that only one player had a position named "Universal" which is not among the positions introduced in the previous terminology. The player was from Team Dominican Republic and had a total score of 93. I then substituted her position by the mode position, outside hitter. In addition, the cases of player position names were not consistent. I standardized them to capital cases.
+
+### 2.4 Data Wrangling
+
+I noticed that some names on the bio data table had a letter "c" preceded by a newline at the end of the string. As I confirmed on the website, the "c" indicates that the player was the captain of the team. There were 16 such names as the competition had 16 team participants. I created a new indicator variable `is_captain` with value 0 and 1 before removing the suffix from the name string.
+
+`age` was created as a new numerical variable. I extracted the year from the `birthdate` variable, converted it into an integer value, and subtracted it from year 2019 to calculate a player's age at the time of the competition.
+
+Before merging the data tables together, I renamed the ambiguous columns with specific names. For example, variables called `total` were both present in the best scorer and bio datasets, but they represent total scorer and the number of times a player had been selected for competitions, respectively.
+
+Next, I took the variable `total score` from the best scorers dataset, `attack success rate` from the best spikers dataset, `digs per set` from the best  diggers dataset, `sets per set` from the best setters dataset, and `attack success rate` from the best attackers dataset. I merged the bio and with those variables of interest using the player name. I then checked the combined data table still has 400 rows - Luckily, there were not two players with the same name. 
+
+However, 112 rows have NA values in all columns `total score`, `digs per set`, `sets per set`, and `attack success rate`. Missing values were expected as previously we saw bio and best scorers have different row numbers. I first dropped the 112 rows and then imputed the remaining missing values with averages within the group `position` because players from the same position are more likely to have similar scores. The result player data table has 288 rows. 
+
+Then, to prepare for the later investigation of the association between player performance and team result, I merged the newly generated player data table with the team rank data table. This time, no missing values were introduced to the combined table.
+ 
+
+```{r cleaning & wrangling, include=FALSE}
+## bio
+# Rename ambiguous columns before merging
+setnames(bio, 'spike', 'spike_height')
+setnames(bio, 'block', 'block_height')
+setnames(bio, 'total', 'total_selections')
+
+# Deal with outliers
+boxplot(bio$spike_height, main='Boxplot of spike height')
+bio[spike_height < 240]
+nrow(bio[spike_height >= block_height]) / nrow(bio)
+bio[, spike_height := fifelse(spike_height < 150, block_height, spike_height)]
+
+# Only one player has a universal position, replace with the most occurred position
+bio[position == 'Universal']
+bio[, position := fifelse(position == 'Universal', fmode(position), position)]
+
+# Make position name consistent
+bio[, position := fifelse(position == 'Middle blocker', 
+                          'Middle Blocker', 
+                          fifelse(position == 'Opposite spiker',
+                                  'Opposite Spiker', position))]
+
+## Create numerical variables - bmi, world_game, age
+bio[, bmi := round(weight / (height/100)**2, 1)]
+bio[, world_selection := world_championships + olympic_games]
+# Take the last four char from birth date and convert to int as birth year
+bio[, birth_year := strtoi(slice_back(birthdate, 4))]
+# Calculate age
+bio[, age:= 2019 - birth_year]
+# Create a indicator for captain: name has '\nc' at the end
+bio[, is_captain := fifelse(slice_back(name, 2) == '\nc', 1, 0)]
+# Remove char from end of name
+bio[, name := gsub("\nc", "", name)]
+# Keep only relevant columns
+
+## scorers
+# Rename columns
+setnames(scorers, 'total', 'total_score')
+setnames(scorers, 'rank', 'score_rank')
+# Drop column that's not interesting
+scorers <- scorers[, !"shirtnumber"]
+
+# Merge player scores with bio
+# look for association between players' individual scores and their ability
+players <- merge(x = bio[, .(name, team, position, age, height, weight, bmi,
+                             spike_height, block_height,
+                             total_selections, is_captain)], 
+                 y = scorers, 
+                 all.x = T, all.y = F, 
+                 by=c("name", 'team'))
+
+## Best players
+# Rename
+setnames(diggers, 'average_per_set', 'digs_per_set')
+setnames(setters, 'average_per_set', 'sets_per_set')
+setnames(spikers, 'success_%', 'attack_success_rate')
+# Merge with player dataset
+players <- merge(x = players, 
+                 y = diggers[, .(name, digs_per_set)],
+                 all.x = T, all.y = F, 
+                 by="name")
+players <- merge(x = players, 
+                 y = setters[, .(name, sets_per_set)], 
+                 all.x = T, all.y = F, 
+                 by="name")
+players <- merge(x = players, 
+                 y = spikers[, .(name, attack_success_rate)], 
+                 all.x = T, all.y = F, 
+                 by="name")
+# Check row number doesn't change so no players have the same name
+print(nrow(players) == nrow(bio))
+# Check for NAs
+players[is.na(digs_per_set) & is.na(sets_per_set) & 
+         is.na(attack_success_rate) & is.na(total_score), .N]
+players <- players[!(is.na(digs_per_set) & is.na(sets_per_set) & 
+         is.na(attack_success_rate) & is.na(total_score))]
+players[is.na(total_score), .N]   # 43
+
+# Impute missing values
+players <- players %>%
+  group_by(position) %>%
+  mutate(
+    total_score = coalesce(total_score, round(mean(total_score, na.rm=TRUE))),
+    digs_per_set = coalesce(digs_per_set, round(mean(digs_per_set, na.rm=TRUE))),
+    sets_per_set = coalesce(sets_per_set, round(mean(sets_per_set, na.rm=TRUE)))
+    #attack_success_rate = coalesce(attack_success_rate,
+    #                               round(mean(attack_success_rate, na.rm=TRUE)))
+  )
+players <-data.table(players)
+
+## Team
+# Rename team rank
+setnames(team_rank, 'rank', 'team_rank')
+# Merge team info together with player info
+team_players <- merge(x=team_rank[, .(team, team_rank, match_win, 
+                                      set_ratio, team_full)], 
+                      y=players[, .(name, team, age, position, height, 
+                                    total_selections, total_score,
+                                    digs_per_set, sets_per_set, 
+                                    attack_success_rate)],
+                      
+                     all.x = T, all.y = T, 
+                      by='team')
+
+```
+
+
+## 3. Preliminary Results
+
+### 3.1 How much does the score a player wins in a game depend on her personal capacity, such as physical traits and experience?
+
+Starting with the first question of interest, I focused on the variable `total score` as the measurement of performance, variables `height` and `spike height` for physical traits, and variables `age` and `total selection` (the number of times the player had been selected to compete in championships) as the measurement of experience. The total score is the sum of attack score, block score, and serve score. The correlation between spike height and block height is as large as 0.89. I also found that the spike height is no smaller than the block height for all players, so I picked `spike height` as an indicator for jump height. 
+
+I created two sets of pairwise correlation plots of total score with physical measurements and experience measurements, respectively.
+
+```{r individual correlation plot, echo=FALSE, width="80%"}
+ggpairs(players[, .(total_score, height, spike_height)], 
+        title="Pairwise Correlation Among Player Height, Spike Height, and Total Score",
+        columnLabels = c("Total Score", "Height", "Spike Height"))
+
+
+ggpairs(players[, .(total_score, total_selections, age)], 
+        title="Pairwise Correlation Among Player Age, Number of Selections, and Total Score", 
+        columnLabels = c("Total Score", "Number of Selections", "Age"))
+```
+
+We can observe on the plot that there is a large correlation between spike height and height of value 0.735. The correlation between total score and spike height is significant as indicated by the three asterisks, and the correlation coefficient is 0.403. In terms of experience, the number of selections is significantly associated with age. The total score the player won during the competition is positively correlated with the number of selections. The correlation has a coefficient value of 0.171, which is relatively weak compared to that with spike height. However, the performance of a player is not associated with age as the correlation value 0.003 is very close to zero.
+
+Then, I fitted a linear model to total score and spike height. The estimated coefficient of spike height is 1.65, which represents that an increment of 1cm in spike height will result in an increase of 1.65 points in a player's score. The p-value is $1.10\times 10^{-12}$, smaller than the significance level $\alpha=0.05$, so the estimate is statistically significant. The adjusted $R^2$ of the multiple linear regression model is 0.16, so about 16% of the variation in total score can be explained by the independent variables spike height. 
+
+However, I identified some problems from the diagnostic plots. The line on the residual vs fitted graph is a little curved rather than horizontally straight. Some points on the tails from the Normal QQ plot fall off the line. Thus, the residuals are not normally distributed. The linear model might not be an ideal choice for `total score` and `spike height`.
+
+```{r individual lm, include=FALSE}
+cor.test(players$spike_height, players$block_height) #0.89
+cor.test(players$total_score, players$total_selections) #0.135
+
+# Linear regression wrt height
+# total selection is not significant
+score_height_fit <- lm(total_score ~ spike_height, data=players)
+summary(score_height_fit)
+par(mfrow=c(2,2))
+plot(score_height_fit)
+
+# LM among attackers
+attackers <- players[position == "Outside Hitter" | position == "Opposite Spiker" ]
+score_height_fit_attacker <- lm(total_score ~ spike_height, data=attackers)
+summary(score_height_fit_attacker)
+par(mfrow=c(2,2))
+plot(score_height_fit_attacker)
+
+# Regression lines
+# ignore
+players %>%
+  ggplot() +
+  aes(x = spike_height, y = total_score) +
+  geom_jitter() +
+  # Fit a linear regression line by region
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Overall Regression Lines of Total Score vs Spike Height") + 
+  theme_light() + 
+  scale_color_brewer(palette = "Set2")
+```
+
+However, the score a player wins in a match depends on the nature of her position, and each position has different physical standard for the player. For example, opposite spikers and outside hitters are the primary attackers on the team and score most of the points. Those positions have high requirement on the player height as they need to hit the ball high to pass the block from the rally. On the other hand, liberos serve as defensive specialists and usually do not have an opportunity to score directly. They need to be agile to dig the ball before it hits the floor and thus have a lower weight among the players. Similarly, setters usually have the 2nd of three contacts with the ball and pass the ball to attackers on the team. It is unusual setters score directly on the court except serves.
+
+```{r score position summary, echo=FALSE, out.width="80%", fig.align="center"}
+# Summary statistics, group by position
+position_summary <- players[, .(
+  `Average Score` = round(mean(total_score)),
+  #`Average Attacks` = round(mean(attacks)),
+  #`Average Blocks` = round(mean(blocks)),
+  `Average Height` = round(mean(height)),
+  `Average Weight` = round(mean(weight)),
+  `Number` = .N
+), by=position]
+
+position_summary[order(-`Average Score`)] %>%
+  kbl(caption="Summary Statistics of 5 Volleyball Positions") %>%
+  kable_styling("striped", "hover", full_width = F)
+
+```
+
+```{r score position plot, echo=FALSE, width="80%", fig.align="center"}
+# Violin plot of total score by position
+players %>%
+  ggplot() + 
+    aes(y = total_score, x = 1, fill = position) +
+    geom_violin() +
+    facet_wrap(~position, nrow=1) +
+    scale_fill_brewer(palette = "Set2") +
+    labs(title="Distribution of Player Score Based on Positions",
+         x="", y="Total Score") +
+    theme_light() +
+    theme(axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+          legend.position='none')
+```
+
+The boxplot shows that there is a large variation in opposite spikers' scores. The attackers in general score much more points directly than setters and liberos on the team. Then, I visualized the total scores versus spike height by five volleyball positions as follows. It is noticeable that the regression lines are the steepest among opposite spikers and outside hitters. The higher a spiker can jump, the more likely she can bypass the block from opponents and score.
+
+```{r individual plot, echo=FALSE, width="80%", fig.align="center"}
+# Note: Strongest correlation between total score and spike height 
+# among opposite spikers and outside hitters
+transform(players,
+          position=factor(position, levels=position_levels))%>%
+  ggplot() +
+  aes(x = spike_height, y = total_score, color=position, alpha=0.5) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Scatterplots of Total Score vs Spike Height by Position",
+       x="Spike Height", y="Total Score") + 
+  facet_wrap(~position) +
+  guides(color = 'none', alpha = 'none') +
+  theme_light() + 
+  scale_color_brewer(palette = "Set2")
+```
+
+Therefore, There is a moderate association between the points a player wins on a competition and her physical traits, especially with the jump height. Attackers on the team are likely to score points on a match. The association is stronger among some volleyball positions and weaker among others. However, a player's performance is not necessarily related to her experience. Young players who have not participated in a lot of world championships can gain as many points as experienced players.
+
+### 3.2 Is there a particular position or "ace" in the team critical for winning the game?
+
+To answer this question, I studied the association between the teams' results and players' performance. The team result was evaluated using the metric `match points` and `set ratio`. Match points were calculated by adding up points gained from each match according the following criteria.
+
+```{r point criteria, echo=FALSE}
+criteria <- data.table(case=c("Match won 3-0; 3-1", "Match won 3-2", 
+                              "Match lost 2-3", "Match lost 0-3; 1-3", 
+                              "Match forfeited"),
+                       points=c("3 points ", "2 points ", "1 points ",
+                                "0 points ", "0 points "))
+criteria %>%
+  kbl(caption="Points Earned Per Match", col.names = NULL) %>%
+  kable_styling("striped", full_width = F)
+```
+
+The philosophy behind is that teams aim to finish a match by winning three out of five sets as soon as possible ideally without losing a set. If two or more teams are tied on the number of points gained, they will be ranked by `set ratio` resulting from the division of the number of all set won by the number of all sets lost. Players' performance was measured based on their total score, success rate of attacks, the number of digs per set, and the number of sets per set. Actions of digs and sets are usually the first two contacts with the ball and do not count towards scores, but they also reflect player skills, especially for liberos and setters.
+
+#### 3.2.1 Team Summary Statistics
+
+First, I took a closer look at each of the 16 teams. Summary statistics of match results, player performance, and play bio are displayed in the table below. Maximum and average total scores of players are calculated for each team together with the standard deviation. For digs and sets, because one of the 6 players on the court in a game will be a setter and at most one of them will be a libero, I only took maximum values on the number of digs and sets per set for each team.
+
+```{r team table, echo=FALSE, out.width="80%", fig.align="center"}
+# Team player summary statistics
+team_player_summary <- players[, .(
+  max_score = max(total_score),
+  average_score = round(mean(total_score)),
+  std_score = round(sd(total_score), 2),
+  max_digs = max(digs_per_set),
+  max_sets = max(sets_per_set),
+  average_age = round(mean(age)),
+  average_height = round(mean(height)),
+  average_total_selections = round(mean(total_selections))
+), by=team]
+team_summary <- merge(x=team_rank[, .(team, team_rank, match_win, points,
+                                      set_ratio, team_full)],
+                      y=team_player_summary, by='team')
+#library(formattable)
+#team_summary$std_score <- color_tile("white", "orange")(team_summary$std_score)
+# Knitr table
+ordered_list1 <- team_summary[order(team_rank)][, std_score]
+
+team_summary[, .(team_rank, team_full, match_win, points, set_ratio, max_score, 
+                 average_score, std_score, max_digs, max_sets, 
+                 average_age, average_total_selections, average_height)][order(team_rank)] %>%
+  kbl(col.names = c("Rank", "Team", "Match Win", "Match Points", "Set Ratio",
+                    "Max Score", "Average Score", "STD Score", 
+                    "Max Digs", "Max Sets", "Average Age", 
+                    "Average Selections", "Average Height"),
+      caption = "Summary Statistics of 16 Teams") %>%
+  column_spec(7, color = "white", 
+              background = spec_color(ordered_list1, 
+                                      option="D", end=0.7,
+                                      alpha ="0.8", direction=-1)) %>%
+  kable_styling("striped", "hover") %>%
+  add_header_above(c(" " = 2, "Match Result" = 3, 
+                     "Player Performance" = 5, "Player Bio" = 3)) %>%
+  scroll_box(height='500px')
+```
+
+
+In terms of player profile, Team Belgium was the youngest team with an average age of 22 while the largest average age was 29 from Team Thailand. At the same time, Thailand players were the shortest with an average height of 175cm. The largest average height of 188cm came from Team USA. While Team China and Team USA both won 12 matches, the former had a larger set ratio, which means Team China had lost fewer sets during the matches. However, neither Team China nor USA had a particularly large max or average player score. Team China's max player score was among the last five teams and they had the third smallest standard deviation of player scores. On the other hand, the best scorer of the season, Malwina Smarzek, won 421 points on her own for Team Poland, but the team ranked in 6th place, which was not as good as one may expect Therefore, the score an ace wins for the team is not deterministic. 
+
+The spread of players' scores for each team is shown in the following boxplots. Starting from the top left subplot, the teams are ordered according to the round robin rank from left to right. 
+
+```{r team plot, echo=FALSE, out.width="80%", fig.align="center", fig.align="center"}
+# Boxplot of player total score by team
+team_in_order <- team_rank[, team_full]
+transform(team_players,
+          team_full=factor(team_full,levels=team_in_order)) %>%
+  ggplot() + 
+    aes(y = total_score, x = 1) +
+    geom_boxplot() +
+    coord_flip() +
+    facet_wrap(~team_full, nrow=4) +
+    labs(title="Boxplots of Player Score in 16 Teams",
+         x="", y="Total Score") +
+    theme_light() +
+    theme(axis.text.y=element_blank(), axis.ticks.y=element_blank())
+
+```
+
+We can observe that many teams have one or two players who are the primary scorer on the team. However, Having players at similar levels does not necessarily put a team at a disadvantage. Though it is certainly better for the players to be similarly strong rather than similarly weak.
+
+```{r team dodge histogram, include=FALSE}
+#TODO: create histogram for some other metrics
+# Hist of total selection by top 5 teams
+team_in_order <- team_rank[, team_full]
+transform(team_players,
+          team_full=factor(team_full,levels=team_in_order))[team_rank <= 5] %>% 
+  ggplot(aes(x=total_selections, fill=team_full)) +
+  geom_histogram(binwidth = 50, position = 'dodge2') +
+  labs(title="Histogram of Selections in the Top 5 Teams", 
+       x="Number of Selection", y="Count") +
+  scale_fill_brewer(palette = "Set2", name = "Team") +
+  theme_light() 
+```
+
+
+#### 3.2.2 Linear Regression on Match Points
+
+```{r team and individual correlation, include=FALSE, out.width="80%", fig.align="center", warning=FALSE}
+team_players[team=="CHN", .(position, total_score)]
+team_players[team=="RUS", .(position, total_score)]
+team_players[team=="ITA", .(position, total_score)]
+
+# Correlation
+cor.test(team_summary$max_score, team_summary$set_ratio)
+cor.test(team_summary$average_score, team_summary$set_ratio)
+#cor.test(team_summary$std_score, team_summary$set_ratio)
+#cor.test(team_summary$max_digs, team_summary$set_ratio) #negative
+#cor.test(team_summary$max_sets, team_summary$set_ratio) #negative
+
+# Based on individual player: set ratio with metrics - not significant
+win_rate_all_fit <- lm(set_ratio ~ total_score + sets_per_set + 
+                         digs_per_set, data=team_players)
+summary(win_rate_all_fit)
+
+# Based on team summary
+r2_list <- rep(0, 4)
+res_var <- rep(0, 4)
+p_values <- rep(0, 4)
+win_all_fit <- lm(points ~ average_score + max_sets + max_digs, data=team_summary)
+summary(win_all_fit)
+
+win_score_set_fit <- lm(points ~ average_score + max_sets, data=team_summary)
+summary(win_score_set_fit)
+
+win_score_dig_fit <- lm(points ~ average_score + max_digs, data=team_summary)
+summary(win_score_dig_fit)
+
+win_score_fit <- lm(points ~ average_score, data=team_summary)
+summary(win_score_fit)
+par(mfrow=c(2,2))
+plot(win_score_fit)
+
+win_max_fit <- lm(points ~ max_score, data=team_summary)
+
+models <- list(win_all_fit, win_score_set_fit, win_score_dig_fit, 
+               win_score_fit, win_max_fit)
+```
+
+Next, I tried to fit linear models to match points the 16 teams won based on different combinations of explanatory variables of average player score, maximum number of digs per set, and maximum number of sets per set. The resulted coefficients of determination (adjusted), residual variance, model p-values, and AICc are shown in the following table. 
+
+```{r team model summary, echo=FALSE, out.width="80%", fig.align="center", warning=FALSE}
+# Display in table table
+for (i in seq(1, 5)) {
+  r2_list[i] <- round(summary(models[[i]])$adj.r.squared, 3)
+  res_var[i] <- round(summary(models[[i]])$sigma^2, 3)
+  p_values[i] <- round(summary(models[[i]])$coefficients[2,4], 3)
+}
+model_names <- c("Average Score + Max Digs + Max Sets",
+            "Average Score + Max Sets", 
+            "Average Score + Max Digs", "Average Score", "Max Score")
+aic <- aictab(models, modnames = model_names)
+win_score_summary <- data.table(
+  `Explanatory Variables` = model_names,
+  `Coefficient of Determination` = r2_list,
+  `Residual Variance` = res_var,
+  `Model p-value` = p_values,
+  `AICc` = aic$AICc
+)
+
+win_score_summary %>%
+  kbl(caption="Linear Models on Teams' Match Points") %>%
+  kable_styling("striped", "hover", full_width = F)
+```
+
+We can notice that the linear model using average score and max digs has the largest adjusted $R^2$, which indicates that around 29% of the variation in the match points can be explained by the average score and maximum number of digs per set. That model also has the smallest residual variance among the four and a p-value smaller than the 0.05 significance level. However, the model fitted with all three independence variables is favoured by the AICc model selection. The linear model with the maximum player score is the weakest. The team's performance does not largely depend on the best player on the team.
+
+The graph below shows the visualization of the linear regression of match points with the average player score. The plot hints that the linear model may not be a good fit for the data, as many points fall outside the shaded 95% interval. The model could not predict games with the particularly high or low points well.
+
+```{r team regression plot, echo=FALSE, out.width="60%", fig.align="center"}
+# Regression line of set ratio with player average score
+team_summary %>%
+  ggplot() +
+  aes(x = average_score, y = points) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Regression Line of Match Points vs Average Player Score",
+       x="Average Player Score", y="Match Points") + 
+  theme_light() 
+# Note: GAM has no difference
+```
+
+#### 3.2.3 Team's Composition of Top Ranked Players
+
+Then, I explored how many best players each team had, according to the spike, block, set, and dig rankings. while the spiker ranking was determined by a player's attack success rate, the rankings for block, set, and dig were evaluated based on the average number of tactical skills successfully performed by a player in a set. The scatterplot below decomposes the top 10 rankings for the 4 skills by the team and player position. The x-axis corresponds to the rank from 1 to 10, so each vertical line would have four pins for the four skills. The teams on the y-axis are ordered by the preliminary round team rank from top to bottom. 
+
+```{r skill plot, echo=FALSE, out.width="80%", fig.align="center"}
+# how many best players in each team - heatmap of rank
+# Wrangle
+rank_all <- rbind(spikers[, .(name, rank, skill = "Attack", value=attack_success_rate)],
+                  setters[, .(name, rank, skill = "Set", value=sets_per_set)],
+                  diggers[, .(name, rank, skill = "Dig", value=digs_per_set)],
+                  #receivers[, .(name, rank, skill = "Receive", value=`efficiency_%`)],
+                  blockers[, .(name, rank, skill = "Block", value=average_per_set)])
+rank_all <- merge(x=rank_all, 
+                  y=bio[, .(team, name, position, is_captain)], 
+                  all.x=T, all.y=F, by='name')
+rank_all <- merge(x=rank_all, 
+                  y=team_rank[, .(team_rank, team_full, team)], 
+                  all.x=T, all.y=F, by='team')
+# Scatterplot
+transform(rank_all,
+          team_full=factor(team_full, levels=rev(team_in_order)))[rank <= 10] %>%
+  ggplot(aes(x=rank, y=team_full, shape=position, color=skill, size=3)) + # is_captain
+  #ggplot(aes(x=rank, y=team_full, color=position, shape=skill, size=3)) +
+  geom_point() +
+  scale_x_continuous(breaks=seq(1,10))+
+  theme_light() +
+  guides(size="none") +
+  #theme(axis.ticks.y=paste(rank_all$team_rank, rank_all$team_full))
+  scale_color_brewer(palette = "Set2") +
+  labs(title="Composition of Top 10 Players with 4 Tactical Skills By Teams", 
+       x="Player Skill Rank", y="Team")
+rank_all_summary <- rank_all
+
+```
+
+```{r skill plot bar, echo=FALSE, width="80%", fig.align="center"}
+
+team_in_order_short <- team_rank[,team]
+transform(rank_all,
+          team=factor(team, levels=team_in_order_short))[rank <= 10] %>%
+  ggplot(aes(x=team, fill=skill)) +
+  geom_bar() +
+  geom_hline(yintercept=2.5, color="grey", linetype="dashed") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_light() +
+  labs(title="Number of Top Players by Teams and Tactical Skills", 
+       x="Team", y="Count")
+```
+
+There is no surprise that the top 10 players who excel at setting were setters, and opposite spikers and outside hitters were the best at attacks. It is interesting to note that the 10 best diggers could be liberos, outside hitters, and even setters. A potential explanation is that a libero is not always on the court during a match. Although players need to actively attack to score, preventing the ball from hitting the floor at the first place is equally important. Thus, it never hurts to have more people good at digging on the team.
+
+If we ignore the skill category, dividing the 40 top players by 16 teams gives us an average of 2.5 top players scattered in each team, as indicated by the horizontal dashed line on the barchart. To my surprise, both Team China and Team USA only had one top 10 attacker on the team, who ranked in the 8th and the 1st, respectively. The other three top-5 teams have players who excel at each of the four tactical skills. Thus, it is difficult to conclude if it's more advantageous for a team to be well-rounded and have good players with all tactical skills, or having an ace player excellent at a particular skill is good enough. However, it is noticeable that while good setters, diggers, and blockers almost evenly scattered across all teams, the first half of teams had most of the good attackers. Team Turkey even had two good attackers who ranked in the 3rd and 7th in addition to a third best setter. Therefore, a team at least needs an attacker to actively spike and score.
+
+I then look into details about the top 1 players for the four skills. Team USA had the best attacker Andrea Drews with an attack success rate of 48.1%. Drews' height and spike height surpassed 85% other attackers on the competition. In the final game after the preliminary round, Team USA won the gold medal and Drews was selected the MVP. Drews later became a gold medalist at the 2021 Tokyo Olympic Games. The previously mentioned best scorer Malwina Smarzek only ranked as the 6th best spiker with a slightly lower success rate of 43.6%. Although Smarzek scored more by spikes for Team Poland, she made 863 attempts, which was more than twice as Drews. 
+
+The top player for other three skills all came from teams in the second half. The best blocker Maja Aleksic was from Team Serbia but she was the only top 10 player on the team for all skills, and that was not enough to lead the team to victory. It is worth mentioning that the best setter, Nootsara Tomkom from Team Thailand, was also ranked at the 8th place for her digging skill with 6.7 digs per set. The libero on the team was only ranked at the 35th place with 1.7 digs per set. We know that the dig and set are usually the first and second of three contacts with the ball. One can imagine that the setter will not be able to set the ball for attackers to hit if she digs the ball first because a player is not allowed to touch the ball for two consecutive times. This might be a critical issue for Team Thailand. Without a reliable libero to pick up the ball at the first place, a team may not benefit from the setter's excellent setting skill.
+
+```{r rank composition, include=FALSE}
+# composition of positions in the top 10 best player rank - pie facet
+rank_all[rank==1]
+bio[name=='Malwina Smarzek' | name=="Andrea Drews"]
+attacker_height <- attackers[, height]
+attacker_spike_height <- attackers[, spike_height]
+sum(attacker_height <= bio[name=='Andrea Drews', height]) / length(attacker_height)
+sum(attacker_spike_height <= bio[name=='Andrea Drews', spike_height]) / length(attacker_spike_height)
+rank_all[is_captain==1 & rank <= 10, .(name, team, position, rank, skill)]
+rank_all[team=="THA" & (skill=="Set" | skill=="Dig"), .(team, name, skill, rank, position, value)][order(rank)]
+```
+
+```{r save data, include=FALSE}
+fwrite(players, "players.csv")
+fwrite(rank_all, "player_rank.csv")
+```
+
+
+#### 3.2.4 Team Captains
+
+I analyzed the characteristics of the 16 captains from different teams to see how they decide this important role of leading the team to victory. The position of captain is given to athletes whom the rest of the team respect and trust. A captain is often one of the older or more experienced players and have good leadership qualities. But sometimes, the player best with some tactical skills is selected as the captain. 
+
+On 2019 VNL, the average age among the captains was 29, which was 5 years older than the overall mean age of 24. In addition, they had been selected to participate in competitions for an average of 148 times before 2019 VNL, which was almost three times the mean value for all players. This verifies the above statement that captains are usually experienced players.
+
+Next, I considered the positions of the captains. The pie chart below shows that almost half of the captains were outside hitters. Together with middle blockers and opposite spikers, attackers amounted to 75% of the captains. However, this figure is similar to the proportion of attackers among all players, which is 69%.  No captain served as a libero on the team, while a quarter of the captains were setters on their teams. This proportion is a half larger than the percentage of setters among all players. A possible reason is that at the position receiving the second touch of the ball, setters interact largely with both defensive and offensive roles. Setter is often so-called brain of the team, who directs the team's offense. Thus, it can be nature for the setter to take the role of team captain. 
+
+```{r captain statistics, include=FALSE, out.width="80%", fig.align="center"}
+# Filter captains in the 16 teams
+captains <- players[is_captain == 1]
+mean(captains$age)
+#players[age>34]
+mean(captains$total_selections)
+mean(bio$total_selections)
+mean(captains$total_score)
+boxplot(captains$age)
+# Proportion of attackers among all players
+nrow(bio[position%in% c("Opposite Spiker", "Outside Hitter", "Middle Blocker")]) / nrow(bio)
+nrow(bio[position=="Setter"]) / nrow(bio)
+mean(players$total_score)
+```
+
+```{r captain plot, echo=FALSE, out.width="80%", fig.align="center"}
+# Pie chart
+captain_position <- captains[, .(number = .N), by=position]
+captain_position <- 
+  captain_position %>% 
+  arrange(desc(position)) %>%
+  mutate(prop = number / sum(captain_position$number) *100) %>%
+  mutate(ypos = cumsum(prop)- 0.5*prop )
+captain_pie <- captain_position %>%
+  ggplot(aes(x="", y=prop, fill=position)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  geom_text(aes(y = ypos, label = number), color = "white", size=4) +
+  scale_fill_brewer(palette="Set2") +
+  theme_void() +
+  labs(title="Pie Chart of Captain Positions")
+# Histogram of captains' scores
+captain_hist <- captains %>% 
+  ggplot(aes(x=total_score, fill=position)) +
+  geom_histogram(binwidth = 50) +
+  labs(title="Histogram of Captains' Total Score \nby Position", 
+       x="Total Score", y="Count") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_light() +
+  guides(color='none') +
+  theme(legend.position = 'none')
+grid.arrange(captain_pie, captain_hist, ncol=2)
+
+#TODO: Score rank for captain within each team
+#captains$score_rank
+
+```
+
+From the histogram of captains' scores, most of the captains contribute 50 to 100 points to the team through the preliminary round. The table below compares the primary scorer with the captain of each team. Since all primary scorers are spikers, I included their attack success rate and attacker ranks. For each captain, I found the skills they are relatively the best at and included their rankings for that skill.
+
+```{r primary scorer vs captain on team, echo=FALSE}
+# Get the primary scorer for each team
+team_scorer <- team_players[team_players[, .I[which.max(total_score)], by="team"]$V1]
+# Add attacker rank
+team_scorer <- merge(x=team_scorer, y=spikers[, .(name, rank)],
+                     all.x=T, all.y=F, by="name")
+team_scorer <- team_scorer[, .(team_full, team, team_rank, name, position, total_score, 
+                               attack_success_rate, rank)]
+
+
+# Get Captains' best skill
+captains_best_rank <- rank_all[is_captain==1, .(name, team, position, rank, skill)]
+captains_best_rank <- captains_best_rank[captains_best_rank[, .I[which.min(rank)], by="name"]$V1]
+# Check age
+#merge(x=captains_best_rank, y=bio[, .(name, age)], 
+#      all.x=TRUE, all.y=F, by="name")
+# Add total score
+captains_best_rank <- merge(x=captains_best_rank, 
+                            y=scorers[, .(name, total_score)], 
+                            all.x=T, all.y=F, by='name')
+setnames(captains_best_rank, "skill", "best_skill")
+setnames(captains_best_rank, "name", "captain_name")
+setnames(captains_best_rank, "position", "captain_position")
+
+# Merge team's captain and primary scorer
+scorer_vs_captain <- merge(x=team_scorer, y=captains_best_rank,
+                           by="team")
+# Replace NA by -
+scorer_vs_captain[is.na(scorer_vs_captain)] <- "-"
+
+ordered_list <- scorer_vs_captain[order(team_rank)][, rank.y]
+ordered_list2<-scorer_vs_captain[order(team_rank)][, rank.x]
+scorer_vs_captain[, .(rank.x, attack_success_rate, position, total_score.x, name, team_rank, team_full, captain_name, total_score.y, captain_position, best_skill, rank.y)][order(team_rank)] %>%
+  select(-team_rank) %>%
+  kbl(col.names = c("Attacker Rank", "Attack Success Rate", "Position", "Total Score", "Name", 
+                    "Team",
+                    "Name", "Total Score", "Position", "Best Skill", "Skill Rank"),
+      caption = "Team Captain vs Primary Scorer") %>%
+  column_spec(11, color = "white", 
+              background = spec_color(ordered_list, 
+                                      option="D", end=0.7,
+                                      alpha ="0.8", direction=-1)) %>%
+  column_spec(1, color = "white", 
+              background = spec_color(ordered_list2, 
+                                      option="D", end=0.7,
+                                      alpha ="0.8", direction=-1)) %>%
+  
+  kable_styling("striped", "hover") %>%
+  add_header_above(c("Primary Scorer" = 5, " " = 1, "Captain" = 5)) %>%
+  scroll_box(height='500px')
+```
+
+We can observe that the captains were not the primary scorers on the team no matter what position they played, except from Team Bulgaria which ranked the last place in the preliminary round. Only the 9th best attacker, Yeon Koung Kim was Team Korea's captain. The rest of top-10 attackers do not serve as the team captain. On the contrary, most captains were most skilled in blocking, setting, and digging. Some of them are among the best setters and blockers. Team Thailand's captain Tomkom was the best setter (also recall that she's the 8th best digger), while the best blocker Aleksic served as the captain of Team Serbia. Aleksic was only 22 years old in 2019, which would definitely considered young as a captain. This can be an example demonstrating that captains do not necessarily need to be old if they are skilled enough to earn trust from other teammates.
+
+### 3.3 Is there an association between the scores two team members at specific positions get in a game?
+
+A basic rule of volleyball is that each team is allowed a maximum of three successive contacts of the ball in order to return it to the opponent's area. A typical routine is (1) the libero receives the ball and passes it to the setter; (2) the setter sets the ball for one spiker on the team; (3) the spiker hits the ball to the rally's area. For this last question, I wanted to explore the interactions between (1) and (2), and between (2) and (3).
+
+I focused on the primary setter, digger, and spiker on each team and extracted the data for players with best records within the team. I attempted to fit a simple linear model to the average number of sets the primary setter performed with the number of digs the primary digger completed during a game. Another linear model was created for the number of spikes from the primary attacker and the number of sets from the primary setter. The adjust $R^2$ and p-values are summarized in the table below, and I visualized the linear regression in a scatterplot.
+
+```{r interaction between primary receiver and setter, include=FALSE, out.width="80%", fig.align="center"}
+team_digger <- diggers[diggers[, .I[which.max(digs_per_set)], by="team"]$V1]
+team_setter <- setters[setters[, .I[which.max(sets_per_set)], by="team"]$V1]
+team_spiker <- spikers[spikers[, .I[which.max(spikes)], by="team"]$V1]  #TODO: attack_success_rate
+team_receiver <- receivers[receivers[, .I[which.max(`efficiency_%`)], by="team"]$V1]
+dig_set <- merge(x=team_digger, y=team_setter, by = "team")
+set_spike <- merge(x=team_setter, y=team_spiker, by = "team")
+
+dig_set_lm <- lm(sets_per_set ~ digs_per_set, data=dig_set)
+dig_set_s <- summary(dig_set_lm)
+#par(mfrow=c(2,2))
+#plot(dig_set_lm)
+
+set_spike_lm <- lm(spikes ~ sets_per_set, data=set_spike)
+set_spike_s <- summary(set_spike_lm)
+#par(mfrow=c(2,2))
+#plot(set_spike_lm)
+
+cor.test(dig_set$digs_per_set, dig_set$sets_per_set)
+cor.test(set_spike$sets_per_set, set_spike$spikes)
+
+interaction_summary <- data.table(
+  Interaction = c("Sets ~ Digs", "Spikes ~ Sets"),
+  `Coefficient of Determination` = c(dig_set_s$`adj.r.squared`, set_spike_s$`adj.r.squared`),
+  `P-value` = c(dig_set_s$coefficients[2,4], set_spike_s$coefficients[2,4])
+)
+```
+
+```{r interaction table, echo=FALSE, out.width="80%", fig.align="center"}
+interaction_summary %>%
+  kbl(caption="Linear Models for Position Interaction") %>%
+  kable_styling("striped", "hover", full_width = F)
+```
+
+```{r interaction plot, echo=FALSE, out.width="100%", fig.align="center"}
+dig_set %>%
+  ggplot() +
+  aes(x = digs_per_set, y = sets_per_set) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Regression Line of Primary Player \nSets vs Digs per Game",
+       x="Digs", y="Sets") + 
+  theme_light() -> dig_set_plot
+
+set_spike %>%
+  ggplot() +
+  aes(x = sets_per_set, y = spikes) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Regression Line of Primary Player \nSpikes vs Sets per Game",
+       x="Sets", y="Spikes") + 
+  theme_light() -> set_spike_plot
+grid.arrange(dig_set_plot, set_spike_plot, ncol=2)
+```
+
+We can see that neither of the two models is statistically significant as the p-values are greater than 0.05. Also, many points on the scatterplot fall outside of the shaded confidence interval. This poor result is largely due to the limitation of my approach - I only used the summary statistics of the 16 teams as those were relatively easy to scrape from the webpages. The sample size was too small to give reliable results. In addition, more sophisticated model should be introduced if there are more available data. A potential next step is to scrape the set details of the 120 matches from the 2019 VNL website or introduce other competition data. Therefore, no reliable conclusion could be made for the third question at this point of time.
+
+```{r ignore-total receives and sets, include=FALSE, out.width="80%", fig.align="center"}
+team_digs <- diggers[, .(total_digs = sum(digs_per_set, na.rm=T)), by="team"]
+team_sets <- setters[, .(total_sets = sum(sets_per_set, na.rm=T)), by="team"]
+team_spikes <- spikers[, .(total_spikes = sum(spikes, na.rm=T)), by="team"]
+
+total_dig_set <- merge(x=team_digs, y=team_sets, by = "team")
+total_set_spike <- merge(x=team_sets, y=team_spikes, by = "team")
+
+total_dig_set_lm <- lm(total_sets ~ total_digs, data=total_dig_set)
+summary(total_dig_set_lm)
+par(mfrow=c(2,2))
+plot(total_dig_set_lm)
+
+total_set_spike_lm <- lm(total_spikes ~ total_sets, data=total_set_spike)
+summary(total_set_spike_lm)
+par(mfrow=c(2,2))
+plot(total_set_spike_lm)
+
+total_dig_set %>%
+  ggplot() +
+  aes(x = total_digs, y = total_sets) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Regression Line of Total Sets vs Digs per Game",
+       x="Digs", y="Sets") + 
+  theme_light() 
+
+total_set_spike %>%
+  ggplot() +
+  aes(x = total_sets, y = total_spikes) +
+  geom_jitter() +
+  stat_smooth(method=lm, formula = y~x) + 
+  labs(title="Regression Line of Total Spikes vs Set per Game",
+       x="Sets", y="Spikes") + 
+  theme_light() 
+```
+
+```{r pairwise correlation between setters and spikers within a team, include=FALSE}
+# Next steps: row corresponds to a set, column corresponds to setters and spikers
+# pairwise correlation matrix
+```
+
+
+## 4. Conclusion
+
+In this analysis, I did a preliminary exploration on the three formulated questions. The score a player can win for her team largely depends on the nature of the position she plays. Spikers are the primary scorers on a team and spike heights affect spikers' potential of winning points the most among all positions. Age and experience, on the other hand, are not critical factors for player scores. 
+
+In terms of team performance, the score the ace wins for the team is not deterministic. Not having an absolute primary scorer does not always put a team at a disadvantage. Instead, the match points are more associated with average player score and the team's defense ability. There is no such thing as too many good receivers on the team. A team also does not need to be all-rounded with excellent blocker, setter, and digger at the same time. However, a reliable spiker is a must-have for a team to actively attack and score. Captain is potentially the most important role on the team but is often not the player who directly contributes most scores. They are usually experienced or skilled such that other teammates trust them in terms of leading the team to victory.  In some teams, setters who serve like a bridge between players fit naturally to the role of captain. 
+
+The biggest limitation of my analysis comes from the lack of per-set data. The results from fitted models are not reliable due to the small sample size. A future improvement is to scrape the more detailed data from the website and build models in a more sophisticated way. Currently, no concrete conclusion could be made for Question 3 but insights from previous sections provided some hints that there must be some association between player performances at different positions.
+
+Although it is undeniable players' individual capability is important for the game, team collaboration is the essence of volleyball. Depending on player skills and characteristics, different teams can arrange different strategies focusing on offense or defense. All players at all positions contribute to the game together and none of the positions is absolutely superior to another. 

@@ -2,8 +2,8 @@
 title: "Lab12 Create a website"
 output: 
   html_document:
-    toc:TRUE
-    toc_float:TRUE
+    toc: TRUE
+    toc_float: TRUE
 ---
 
 # Raw Data

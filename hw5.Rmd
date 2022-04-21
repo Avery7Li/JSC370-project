@@ -1,0 +1,228 @@
+---
+title: "JSC370 Homework 5 - Interactive Visualization"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r library import, include=FALSE}
+library(data.table)
+library(dplyr)
+library(leaflet)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(gtable)
+library(mgcv)
+library(kableExtra)
+library("GGally")
+library(AICcmodavg)
+library(plotly)
+library(widgetframe)
+library(knitr)
+library(stringr)
+library(tidyverse)
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = FALSE,
+  cache=FALSE,
+  include=TRUE)
+```
+
+```{r load data, echo=FALSE}
+source("process_vnl_data.R")
+```
+
+In the midterm project, I analyzed data from the 2019 FIVB Volleyball Women’s Nations League (VNL) to better understand the mechanisms of volleyball. I focused on the preliminary round, where each of the 16 teams played against every other team once in the round-robin stage. 
+
+## Player Spike Height and Scores
+
+The scatter plot below shows how players' total scores change with their spike heights, where the color of the bubble indicates the player's position and the size indicates the number of total selections. A specific team can be selected from the dropdown menu. 
+
+There is not a dominant pattern across different teams. However, generally a player with a high score is more likely to have a high spike height. The score a player can win for her team largely depends on the nature of the position she plays. Spikers are the primary scorers on a team and spike heights affect spikers’ potential of winning points the most among all positions. However, a player’s performance is not necessarily related to her experience. Young players who have not participated in a lot of world championships can gain as many points as experienced players.
+
+```{r 1 scatterplot of height and score plot_ly, warning=FALSE}
+players <- mutate(players, players.col = factor(position, label = c("red", "yellow", "green", "blue", "orange")))
+
+players %>%
+  plot_ly(x= ~spike_height, y=~total_score, type="scatter", mode="markers", size=~total_selections, sizes=c(5, 70), marker=list(color=~players.col, sizemode='diameter', opacity=0.5),
+          hover_info ="text", text = ~paste(paste0("Name: ", name),
+                                            paste0("Team: ", team),
+                                            paste0("Position: ", position),
+                                            paste0("Total Selections: ", total_selections),
+                                            sep = "<br>"),
+          transforms = list(
+            list(
+              type = 'filter',
+              target = ~team,
+              operation = 'in',
+              value = team_abr_in_order
+            ))
+          ) %>%
+  layout(title= "Scatterplots of Total Score vs Spike Height",
+         yaxis = list(title="Total Score"),
+         xaxis = list(title="Spike Height"),
+         hovermode="compare",
+         updatemenus = list(
+          list(
+            y = 0.8,
+            buttons = list(
+              #list(method = "restyle",
+              #     args = list("transforms[0].value", list(team_abr_in_order)),
+              #     label = "ALL"),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[1]),
+                   label = paste0("1. ", team_in_order[1])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[2]),
+                   label = paste0("2. ", team_in_order[2])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[3]),
+                   label = paste0("3. ", team_in_order[3])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[4]),
+                   label = paste0("4. ", team_in_order[4])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[5]),
+                   label = paste0("5. ", team_in_order[5])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[6]),
+                   label = paste0("6. ", team_in_order[6])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[7]),
+                   label = paste0("7. ", team_in_order[7])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[8]),
+                   label = paste0("8. ", team_in_order[8])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[9]),
+                   label = paste0("9. ", team_in_order[9])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[10]),
+                   label = paste0("10. ", team_in_order[10])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[11]),
+                   label = paste0("11. ", team_in_order[11])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[12]),
+                   label = paste0("12. ", team_in_order[12])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[13]),
+                   label = paste0("13. ", team_in_order[13])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[14]),
+                   label = paste0("14. ", team_in_order[14])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[15]),
+                   label = paste0("15. ", team_in_order[15])),
+              list(method = "restyle",
+                   args = list("transforms[0].value", team_abr_in_order[16]),
+                   label = paste0("16. ", team_in_order[16])))))
+    )
+```
+
+<br>
+
+## Team Player Prior Experience {.tabset}
+
+The boxplots within the two tabs show player ages and their prior selections across the 16 teams, respectively. On the x-axis, the teams are ordered from left to right in terms of their final rank in the preliminary round. 
+
+
+It is observable from the age boxplot that Team Belgium was the youngest team and they had the smallest variation in player ages. On the other hand, Team Thailand and Team Korea had the largest variation. In terms of prior selections, Team Brazil was the least experience - the upper quantile indicates that 75% of their members had only been selected for 5 times in other competitions. However, Team Brazil performed no worse than most of other experience teams. Therefore, players' experiences are not critical for a team's overall performance.
+
+### Ages
+
+```{r}
+transform(players,
+          team_full=factor(team_full, levels=team_in_order))%>%
+  plot_ly(y=~age, color=~team_full, type="box") %>%
+  layout(title= "Player Ages in the Teams",
+         yaxis = list(title="Age"),
+         xaxis = list(title="Team"),
+         hovermode="compare")
+  
+```
+
+### Number of Selections
+
+```{r}
+transform(players,
+          team_full=factor(team_full, levels=team_in_order))%>%
+  plot_ly(y=~total_selections, color=~team_full, type="box") %>%
+  layout(title= "Player Number of Selections",
+         yaxis = list(title="Age"),
+         xaxis = list(title="Team"),
+         hovermode="compare")
+  
+```
+<br>
+
+## Match Overview
+
+Below is a heatmap of the 16 teams' performance throughout the preliminary round. The teams are ordered on the x-axis according to their final rank and the y-axis is the match number they played in round robin. The result is measured in terms of the number of sets the team won more than the opponent, where 3 indicates the team beat the opponent by winning three more sets, i.e. the match result is 3-0. A negative number indicates the opponent team won more sets than the team. Thus, the lighter the cell color is, the more the team outperfomed the opponent.
+
+```{r heatmap sets}
+#p1 <- ggplot(match_each_team, aes(x=index, y=sets_win, colour=team)) + geom_line()
+#ggplotly(p1)
+match_mat1 <- match_each_team %>%
+  select(team, index, sets_win)
+# Arrange according to final team rank
+match_mat <- match_mat1 %>% 
+ arrange(match(team, team_abr_in_order))
+match_mat <- as.data.frame(pivot_wider(match_mat, names_from=team, values_from=sets_win))
+match_mat <- match_mat %>% column_to_rownames("index") %>%
+  as.matrix()
+
+plot_ly(x=colnames(match_mat), y=rownames(match_mat), z=~match_mat, 
+        type="heatmap", colorbar = list(title = "Sets won")) %>%
+  layout(title= "Heatmap of the number of sets won by the team",
+         yaxis = list(title="Match Number"),
+         xaxis = list(title="Team"),
+         hovermode="compare")
+```
+
+```{r heatmap points, include=FALSE}
+#p1 <- ggplot(match_each_team, aes(x=index, y=sets_win, colour=team)) + geom_line()
+#ggplotly(p1)
+match_mat1 <- match_each_team %>%
+  select(team, index, points_win)
+# Arrange according to final team rank
+match_mat <- match_mat1 %>% 
+ arrange(match(team, team_abr_in_order))
+match_mat <- as.data.frame(pivot_wider(match_mat, names_from=team, values_from=points_win))
+match_mat <- match_mat %>% column_to_rownames("index") %>%
+  as.matrix()
+
+plot_ly(x=colnames(match_mat), y=rownames(match_mat), z=~match_mat, 
+        type="heatmap", colorbar = list(title = "Sets won")) %>%
+  layout(title= "Heatmap of the number of sets won by the team",
+         yaxis = list(title="Match Number"),
+         xaxis = list(title="Team"),
+         hovermode="compare")
+```
+
+It is noticeable that the teams on the left with higher ranks have lighter-shaded blocks while teams on the right have darker-shaded blocks.
+
+
+## Top 10 Players for 4 Skills
+
+The scatterplot below decomposes the top 10 rankings for the 4 skills, where the color of the marker indicates the tactical skill while the shape indicates the player position. The 16 teams on the y-axis are ordered by the preliminary round team rank from top to bottom. The x-axis corresponds to the rank from 1 to 10, so each vertical line would have four pins for the four skills. The player name is shown on the popup text when hovering over the marker.
+
+```{r, echo=FALSE, warning=FALSE}
+
+scatter_top_player <- transform(player_rank,
+          team_full=factor(team_full, levels=rev(team_in_order)))[rank <= 10] %>%
+  ggplot(aes(x=rank, y=team_full, shape=position, color=skill)) + 
+  geom_point(aes(text=sprintf("name: %s", name))) +
+  scale_x_continuous(breaks=seq(1,10))+
+  theme_light() +
+  guides(size="none") +
+  #theme(axis.ticks.y=paste(rank_all$team_rank, rank_all$team_full))
+  scale_color_brewer(palette = "Set2") +
+  labs(title="Composition of Top 10 Players with 4 Tactical Skills By Teams", 
+       x="Player Skill Rank", y="Team")
+ggplotly(scatter_top_player)
+```
